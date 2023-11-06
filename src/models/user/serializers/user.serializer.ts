@@ -1,11 +1,11 @@
 import { UserDto } from '../dto/user.dto';
 import { User } from '../interfaces/user.interface';
 
-export function mapUserToDto(userEntity: User): UserDto {
+export function mapUserToDto(user: User): UserDto {
   return {
-    id: userEntity.id,
-    firstName: userEntity.firstName,
-    lastName: userEntity.lastName,
-    email: userEntity.email,
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
   };
 }
