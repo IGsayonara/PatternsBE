@@ -13,4 +13,13 @@ export class UserService {
     const user = await UserEntity.findOne({ where: options });
     return mapUserEntityToInterface(user);
   }
+
+  async validateUserRole(
+    options: FindOptionsWhere<UserEntity>,
+    role: string,
+  ): Promise<boolean> {
+    const user = await this.findOne(options);
+
+    return user.roles.includes(role);
+  }
 }
