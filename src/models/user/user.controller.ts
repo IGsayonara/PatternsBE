@@ -6,7 +6,7 @@ import { mapUserToDto } from './serializers/user.serializer';
 export class UserController {
   constructor(private userService: UserService) {}
   @Get('/all')
-  async findCurrent() {
+  async findAll() {
     return await this.userService
       .findAll()
       .then((users) => users.map(mapUserToDto));

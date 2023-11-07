@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
-import { User } from '../interfaces/user.interface';
+import { UserRoleEntity } from './userRole.entity';
 
 @Entity()
-export class UserEntity extends BaseEntity implements User {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -34,4 +36,8 @@ export class UserEntity extends BaseEntity implements User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToMany(() => UserRoleEntity, { eager: true })
+  @JoinTable()
+  roles: UserRoleEntity[];
 }
