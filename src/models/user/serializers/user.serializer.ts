@@ -14,6 +14,6 @@ export function mapUserToDto(user: User): UserDto {
 export function mapUserEntityToInterface(user: UserEntity): User {
   return {
     ...user,
-    roles: user.roles?.map((role) => role.name),
+    roles: user?.roles?.map((role) => role.name),
   };
 }
