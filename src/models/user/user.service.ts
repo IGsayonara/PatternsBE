@@ -4,7 +4,7 @@ import { mapUserEntityToInterface } from './serializers/user.serializer';
 import { FindOptionsWhere } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 
-import { RegisterDto } from '../../authentication/dto/register.dto';
+import { CreateUserDto } from './dto/user.dto';
 
 export class UserService {
   async findAll(): Promise<User[]> {
@@ -17,7 +17,7 @@ export class UserService {
     return mapUserEntityToInterface(user);
   }
 
-  async addOne(user: RegisterDto): Promise<User> {
+  async addOne(user: CreateUserDto): Promise<User> {
     try {
       const payload: Partial<UserEntity> = { ...user, roles: [] };
       const userEntity = new UserEntity();

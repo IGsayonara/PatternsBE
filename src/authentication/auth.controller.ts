@@ -14,6 +14,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
 @Controller('/auth')
+@UsePipes(new ValidationPipe())
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @UseGuards(LocalAuthGuard)
@@ -23,7 +24,6 @@ export class AuthController {
   }
 
   @Post('/register')
-  @UsePipes(new ValidationPipe())
   async register(@Body() user: RegisterDto) {
     await this.authService.register(user);
     return { success: true };

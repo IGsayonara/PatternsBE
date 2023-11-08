@@ -16,15 +16,15 @@ import { RoleGuard } from '../../common/guards/role.guard';
 @Controller('/user')
 export class UserController {
   constructor(private userService: UserService) {}
-  @Get('/all')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @SetMetadata('role', 'admin')
+  @Get()
   async findAll(): Promise<UserDto[]> {
     const users = await this.userService.findAll();
     return users.map(mapUserToDto);
   }
 
-  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get('/me')
-  @SetMetadata('role', 'admin')
   async findCurrent(@Request() req: UserRequest): Promise<UserDto> {
     const email = req.user.email;
 
