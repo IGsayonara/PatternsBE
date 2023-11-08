@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  InternalServerErrorException,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -17,6 +19,7 @@ import { mapProductInterfaceToDto } from './serializers/product.serializer';
 import { CreateProductDto } from './dto/product.dto';
 import { RoleGuard } from '../../common/guards/role.guard';
 import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
+import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
 
 @UsePipes(new ValidationPipe())
 @Controller('/product')
@@ -52,11 +55,19 @@ export class ProductController {
     @Param('id', ParseIntPipe) id: number,
     @Body() edited: Partial<CreateProductDto>,
   ) {
+    const product = await this.productService.editOne({ id }, edited);
+    return mapProductInterfaceToDto(product);
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @SetMetadata('role', 'admin')
+  @Delete('/:id')
+  async deleteOne(@Param('id', ParseIntPipe) id: number) {
     try {
-      const product = await this.productService.editOne({ id }, edited);
-      return mapProductInterfaceToDto(product);
+      await this.productService.deleteOne({ id });
+      return getEmptySuccessMessage();
     } catch {
-      throw new NotFoundException();
+      throw new InternalServerErrorException();
     }
   }
 }

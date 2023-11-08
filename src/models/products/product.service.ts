@@ -2,7 +2,11 @@ import { ProductEntity } from './entities/product.entity';
 import { Product } from './interfaces/product.interface';
 import { FindOptionsWhere } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { mapProductEntityToInterface } from './serializers/product.serializer';
 import { CreateUserDto } from '../user/dto/user.dto';
 import { User } from '../user/interfaces/user.interface';
@@ -43,5 +47,9 @@ export class ProductService {
 
     await product.save();
     return this.findOne(options);
+  }
+
+  async deleteOne(options: FindOptionsWhere<ProductEntity>) {
+    await ProductEntity.delete(options);
   }
 }
