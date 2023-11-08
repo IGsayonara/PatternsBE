@@ -1,14 +1,23 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../models/user/interfaces/user.interface';
-import { LoginResponseDto } from './dto/login.dto';
+import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { UserEntity } from '../models/user/entities/user.entity';
 import { mapUserEntityToInterface } from '../models/user/serializers/user.serializer';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { RegisterDto } from './dto/register.dto';
+import { UserService } from '../models/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService,
+  ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
     const user = await UserEntity.findOne({
@@ -23,10 +32,15 @@ export class AuthService {
 
     return mapUserEntityToInterface(user);
   }
-  login(user: JwtPayload): LoginResponseDto {
+  login(user: LoginDto): LoginResponseDto {
     const payload = { email: user.email };
     return {
       accessToken: this.jwtService.sign(payload),
     };
+  }
+
+  async register(user: RegisterDto) {
+    // TODO: add bcrypt
+    await this.userService.addOne(user);
   }
 }
