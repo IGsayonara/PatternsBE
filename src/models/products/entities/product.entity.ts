@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Product } from '../interfaces/product.interface';
-import { ProductTransitionEntity } from './productTransitionEntity';
+import { ProductTransitionEntity } from '../../productTransition/entities/productTransitionEntity';
 
 @Entity()
 export class ProductEntity extends BaseEntity implements Product {
