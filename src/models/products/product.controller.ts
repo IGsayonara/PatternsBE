@@ -20,7 +20,9 @@ import { CreateProductDto } from './dto/product.dto';
 import { RoleGuard } from '../../common/guards/role.guard';
 import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
 import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('product')
 @UsePipes(new ValidationPipe())
 @Controller('/product')
 export class ProductController {

@@ -18,7 +18,9 @@ import { CreateProductTransitionDto } from './dto/productTransition.dto';
 import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
 import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../../common/guards/role.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('transition')
 @UsePipes(new ValidationPipe())
 @Controller('/transition')
 export class ProductTransitionController {

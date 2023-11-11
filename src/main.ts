@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('Patterns API')
     .setDescription('This api provides you some abilities')
     .setVersion('1.0')
-    .addTag('TransitionCalculator')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
