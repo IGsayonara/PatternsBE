@@ -2,10 +2,11 @@ import { UserEntity } from './entities/user.entity';
 import { User } from './interfaces/user.interface';
 import { mapUserEntityToInterface } from './serializers/user.serializer';
 import { FindOptionsWhere } from 'typeorm';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/user.dto';
 
+@Injectable()
 export class UserService {
   async findAll(): Promise<User[]> {
     const users = await UserEntity.find();

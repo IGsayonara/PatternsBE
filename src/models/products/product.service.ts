@@ -4,14 +4,12 @@ import { FindOptionsWhere } from 'typeorm';
 import { CreateProductDto } from './dto/product.dto';
 import {
   BadRequestException,
-  InternalServerErrorException,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { mapProductEntityToInterface } from './serializers/product.serializer';
-import { CreateUserDto } from '../user/dto/user.dto';
-import { User } from '../user/interfaces/user.interface';
-import { UserEntity } from '../user/entities/user.entity';
 
+@Injectable()
 export class ProductService {
   async findAll(): Promise<Product[]> {
     return await ProductEntity.find();
