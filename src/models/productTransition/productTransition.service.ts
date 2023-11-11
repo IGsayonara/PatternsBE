@@ -3,8 +3,13 @@ import { ProductTransitionEntity } from './entities/productTransitionEntity';
 import { mapProductTransitionEntityToInterface } from './serializers/productTransition.serializer';
 import { CreateProductTransitionDto } from './dto/productTransition.dto';
 import { ProductService } from '../products/product.service';
-import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 
+@Injectable()
 export class ProductTransitionService {
   constructor(private productService: ProductService) {}
   async findAll(): Promise<ProductTransition[]> {
