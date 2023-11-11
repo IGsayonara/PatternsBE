@@ -7,7 +7,9 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
+import { FindOptionsWhere } from 'typeorm';
 
 @Injectable()
 export class ProductTransitionService {
@@ -15,6 +17,18 @@ export class ProductTransitionService {
   async findAll(): Promise<ProductTransition[]> {
     const transitions = await ProductTransitionEntity.find();
     return transitions.map(mapProductTransitionEntityToInterface);
+  }
+
+  async findOne(
+    options: FindOptionsWhere<ProductTransitionEntity>,
+  ): Promise<ProductTransition> {
+    const transition = await ProductTransitionEntity.findOneBy(options);
+
+    if (!transition) {
+      throw new NotFoundException('Transition not found');
+    }
+
+    return mapProductTransitionEntityToInterface(transition);
   }
 
   async addOne(
@@ -39,5 +53,25 @@ export class ProductTransitionService {
     });
 
     return mapProductTransitionEntityToInterface(entity);
+  }
+  async editOne(
+    options: FindOptionsWhere<ProductTransitionEntity>,
+    edited: Partial<CreateProductTransitionDto>,
+  ): Promise<ProductTransition> {
+    const transition = await ProductTransitionEntity.findOneBy(options);
+
+    if (!transition) {
+      throw new NotFoundException('Transition not found');
+    }
+
+    Object.assign(transition, edited);
+
+    await transition.save();
+
+    return this.findOne(options);
+  }
+
+  async deleteOne(options: FindOptionsWhere<ProductTransitionEntity>) {
+    await ProductTransitionEntity.delete(options);
   }
 }

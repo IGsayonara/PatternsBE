@@ -1,17 +1,26 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
+  Put,
+  SetMetadata,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductTransitionService } from './productTransition.service';
 import { mapProductTransitionInterfaceToDto } from './serializers/productTransition.serializer';
 import { CreateProductTransitionDto } from './dto/productTransition.dto';
+import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
+import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
+import { RoleGuard } from '../../common/guards/role.guard';
 
 @UsePipes(new ValidationPipe())
-@Controller('/product/transition')
+@Controller('/transition')
 export class ProductTransitionController {
   constructor(private productTransitionService: ProductTransitionService) {}
   @Get()
@@ -20,6 +29,24 @@ export class ProductTransitionController {
     return transitions.map(mapProductTransitionInterfaceToDto);
   }
 
+  @Get('/:sourceId/:targetId')
+  async findOne(
+    @Param('sourceId', new ParseIntPipe()) sourceId: number,
+    @Param('targetId', new ParseIntPipe()) targetId: number,
+  ) {
+    const transition = await this.productTransitionService.findOne({
+      sourceProduct: {
+        id: sourceId,
+      },
+      targetProduct: {
+        id: targetId,
+      },
+    });
+    return mapProductTransitionInterfaceToDto(transition);
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @SetMetadata('role', 'admin')
   @Post()
   async addOne(@Body() createProductTransitionDto: CreateProductTransitionDto) {
     const transition = await this.productTransitionService.addOne(
@@ -27,5 +54,47 @@ export class ProductTransitionController {
     );
 
     return mapProductTransitionInterfaceToDto(transition);
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @SetMetadata('role', 'admin')
+  @Put('/:sourceId/:targetId')
+  async updateOne(
+    @Param('sourceId', new ParseIntPipe()) sourceId: number,
+    @Param('targetId', new ParseIntPipe()) targetId: number,
+    @Body() edited: Partial<CreateProductTransitionDto>,
+  ) {
+    const transition = await this.productTransitionService.editOne(
+      {
+        sourceProduct: {
+          id: sourceId,
+        },
+        targetProduct: {
+          id: targetId,
+        },
+      },
+      edited,
+    );
+
+    return mapProductTransitionInterfaceToDto(transition);
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @SetMetadata('role', 'admin')
+  @Delete('/:sourceId/:targetId')
+  async deleteOne(
+    @Param('sourceId', new ParseIntPipe()) sourceId: number,
+    @Param('targetId', new ParseIntPipe()) targetId: number,
+  ) {
+    await this.productTransitionService.deleteOne({
+      sourceProduct: {
+        id: sourceId,
+      },
+      targetProduct: {
+        id: targetId,
+      },
+    });
+
+    return getEmptySuccessMessage();
   }
 }

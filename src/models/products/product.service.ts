@@ -17,6 +17,11 @@ export class ProductService {
 
   async findOne(options: FindOptionsWhere<ProductEntity>): Promise<Product> {
     const product = await ProductEntity.findOneBy(options);
+
+    if (!product) {
+      throw new NotFoundException();
+    }
+
     return mapProductEntityToInterface(product);
   }
 
@@ -44,6 +49,7 @@ export class ProductService {
     Object.assign(product, edited);
 
     await product.save();
+
     return this.findOne(options);
   }
 
