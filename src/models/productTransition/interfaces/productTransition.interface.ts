@@ -4,5 +4,8 @@ export interface ProductTransition {
   id: number;
   sourceProduct: Product;
   targetProduct: Product;
-  transitionInstructions: string;
+  sourceInstructions: string;
+  targetInstructions: string;
+  nb: string;
+  rp: string;
 }
