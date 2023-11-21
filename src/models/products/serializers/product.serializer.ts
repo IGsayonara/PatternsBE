@@ -4,28 +4,18 @@ import { ProductEntity } from '../entities/product.entity';
 
 export function mapProductInterfaceToDto(product: Product): ProductDto {
   return {
-    id: product.id,
-    title: product.title,
-    localizedTitle: product.localizedTitle,
-    description: product.description,
-    instructions: product.instructions,
+    ...product,
   };
 }
 
 export function mapProductEntityToInterface(product: ProductEntity): Product {
-  const { id, title, description, createdAt, updatedAt, localizedTitle } =
-    product;
   return {
-    id,
-    title,
-    localizedTitle,
-    description,
-    createdAt,
-    updatedAt,
+    ...product,
     instructions: {
       start: product.startInstructions,
       stop: product.stopInstructions,
       note: product.note,
+      dosage: product.dosage,
     },
   };
 }
@@ -33,13 +23,14 @@ export function mapProductEntityToInterface(product: ProductEntity): Product {
 export function mapCreateProductDtoToEntity(
   product: Partial<CreateProductDto>,
 ): Partial<ProductEntity> {
-  const { title, description, instructions } = product;
-
+  const instructions = product.instructions;
   return {
-    title,
-    description,
-    startInstructions: instructions.start,
-    stopInstructions: instructions.stop,
-    note: instructions.note,
+    ...product,
+    ...(instructions && {
+      startInstructions: instructions.start,
+      stopInstructions: instructions.stop,
+      note: instructions.note,
+      dosage: instructions.dosage,
+    }),
   };
 }

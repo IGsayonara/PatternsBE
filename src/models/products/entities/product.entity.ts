@@ -20,10 +20,19 @@ export class ProductEntity extends BaseEntity {
   title: string;
 
   @Column()
+  category: string;
+
+  @Column()
+  categoryShortname: string;
+
+  @Column()
   localizedTitle: string;
 
   @Column()
   description: string;
+
+  @Column()
+  dosage: string;
 
   @Column({ type: 'text' })
   startInstructions: string;
