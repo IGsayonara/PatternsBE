@@ -8,7 +8,17 @@ export class ProductDto {
   title: string;
 
   @ApiProperty()
+  localizedTitle: string;
+
+  @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  instructions: {
+    start: string;
+    stop: string;
+    note: string;
+  };
 }
 
 export class CreateProductDto {
@@ -17,4 +27,11 @@ export class CreateProductDto {
 
   @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  instructions: {
+    start: string;
+    stop: string;
+    note: string;
+  };
 }
