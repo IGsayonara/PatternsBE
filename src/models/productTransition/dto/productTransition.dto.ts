@@ -6,13 +6,16 @@ export class ProductTransitionDto {
   id: number;
 
   @ApiProperty()
-  transitionInstructions: string;
-
-  @ApiProperty()
   sourceProduct: ProductDto;
 
   @ApiProperty()
   targetProduct: ProductDto;
+
+  @ApiProperty()
+  nb: string;
+
+  @ApiProperty()
+  rp: string;
 }
 
 export class CreateProductTransitionDto {

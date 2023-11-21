@@ -7,12 +7,16 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { mapProductEntityToInterface } from './serializers/product.serializer';
+import {
+  mapCreateProductDtoToEntity,
+  mapProductEntityToInterface,
+} from './serializers/product.serializer';
 
 @Injectable()
 export class ProductService {
   async findAll(): Promise<Product[]> {
-    return await ProductEntity.find();
+    const products = await ProductEntity.find();
+    return products.map(mapProductEntityToInterface);
   }
 
   async findOne(options: FindOptionsWhere<ProductEntity>): Promise<Product> {
@@ -28,7 +32,7 @@ export class ProductService {
   async addOne(product: CreateProductDto): Promise<Product> {
     try {
       const productEntity = new ProductEntity();
-      Object.assign(productEntity, product);
+      Object.assign(productEntity, mapCreateProductDtoToEntity(product));
       await productEntity.save();
       return this.findOne({ title: product.title });
     } catch (err) {
@@ -46,7 +50,7 @@ export class ProductService {
       throw new NotFoundException();
     }
 
-    Object.assign(product, edited);
+    Object.assign(product, mapCreateProductDtoToEntity(edited));
 
     await product.save();
 

@@ -1,22 +1,36 @@
-import { ProductDto } from '../dto/product.dto';
+import { CreateProductDto, ProductDto } from '../dto/product.dto';
 import { Product } from '../interfaces/product.interface';
 import { ProductEntity } from '../entities/product.entity';
 
 export function mapProductInterfaceToDto(product: Product): ProductDto {
   return {
-    id: product.id,
-    title: product.title,
-    description: product.description,
+    ...product,
   };
 }
 
 export function mapProductEntityToInterface(product: ProductEntity): Product {
-  const { id, title, description, createdAt, updatedAt } = product;
   return {
-    id,
-    title,
-    description,
-    createdAt,
-    updatedAt,
+    ...product,
+    instructions: {
+      start: product.startInstructions,
+      stop: product.stopInstructions,
+      note: product.note,
+      dosage: product.dosage,
+    },
+  };
+}
+
+export function mapCreateProductDtoToEntity(
+  product: Partial<CreateProductDto>,
+): Partial<ProductEntity> {
+  const instructions = product.instructions;
+  return {
+    ...product,
+    ...(instructions && {
+      startInstructions: instructions.start,
+      stopInstructions: instructions.stop,
+      note: instructions.note,
+      dosage: instructions.dosage,
+    }),
   };
 }

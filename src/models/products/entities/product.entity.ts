@@ -7,11 +7,10 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Product } from '../interfaces/product.interface';
 import { ProductTransitionEntity } from '../../productTransition/entities/productTransitionEntity';
 
 @Entity()
-export class ProductEntity extends BaseEntity implements Product {
+export class ProductEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,7 +20,28 @@ export class ProductEntity extends BaseEntity implements Product {
   title: string;
 
   @Column()
+  category: string;
+
+  @Column()
+  categoryShortname: string;
+
+  @Column()
+  localizedTitle: string;
+
+  @Column()
   description: string;
+
+  @Column()
+  dosage: string;
+
+  @Column({ type: 'text' })
+  startInstructions: string;
+
+  @Column({ type: 'text' })
+  stopInstructions: string;
+
+  @Column({ type: 'text' })
+  note: string;
 
   @CreateDateColumn()
   createdAt: Date;

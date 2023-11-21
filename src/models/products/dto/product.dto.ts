@@ -1,5 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export class InstructionsDto {
+  @ApiProperty()
+  start: string;
+
+  @ApiProperty()
+  stop: string;
+
+  @ApiProperty()
+  note: string;
+
+  @ApiProperty()
+  dosage: string;
+}
+
 export class ProductDto {
   @ApiProperty()
   id: number;
@@ -8,7 +22,19 @@ export class ProductDto {
   title: string;
 
   @ApiProperty()
+  localizedTitle: string;
+
+  @ApiProperty()
+  category: string;
+
+  @ApiProperty()
+  categoryShortname: string;
+
+  @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  instructions: InstructionsDto;
 }
 
 export class CreateProductDto {
@@ -17,4 +43,16 @@ export class CreateProductDto {
 
   @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  localizedTitle: string;
+
+  @ApiProperty()
+  category: string;
+
+  @ApiProperty()
+  categoryShortname: string;
+
+  @ApiProperty()
+  instructions: InstructionsDto;
 }
