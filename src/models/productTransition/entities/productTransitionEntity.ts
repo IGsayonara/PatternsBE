@@ -20,11 +20,11 @@ export class ProductTransitionEntity extends BaseEntity {
   @Column({ type: 'text' })
   targetInstructions: string;
 
-  @Column({ type: 'text' })
-  nb: string;
+  @Column({ type: 'text', nullable: true })
+  nb?: string;
 
-  @Column({ type: 'text' })
-  rp: string;
+  @Column({ type: 'text', nullable: true })
+  rp?: string;
 
   @ManyToOne(() => ProductEntity, (product) => product.transitionsFrom, {
     eager: true,
@@ -35,7 +35,4 @@ export class ProductTransitionEntity extends BaseEntity {
     eager: true,
   })
   targetProduct: ProductEntity;
-
-  @Column({ type: 'text', nullable: true })
-  transitionInstructions: string;
 }

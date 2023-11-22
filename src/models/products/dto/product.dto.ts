@@ -7,11 +7,11 @@ export class InstructionsDto {
   @ApiProperty()
   stop: string;
 
-  @ApiProperty()
-  note: string;
+  @ApiProperty({ required: false })
+  note?: string;
 
-  @ApiProperty()
-  dosage: string;
+  @ApiProperty({ required: false })
+  dosage?: string;
 }
 
 export class ProductDto {
@@ -24,17 +24,17 @@ export class ProductDto {
   @ApiProperty()
   localizedTitle: string;
 
-  @ApiProperty()
-  category: string;
+  @ApiProperty({ required: false })
+  category?: string;
 
-  @ApiProperty()
-  categoryShortname: string;
+  @ApiProperty({ required: false })
+  categoryShortname?: string;
 
   @ApiProperty()
   description: string;
 
-  @ApiProperty()
-  instructions: InstructionsDto;
+  @ApiProperty({ required: false })
+  instructions?: InstructionsDto;
 }
 
 export class CreateProductDto {
@@ -47,12 +47,12 @@ export class CreateProductDto {
   @ApiProperty()
   localizedTitle: string;
 
-  @ApiProperty()
-  category: string;
+  @ApiProperty({ required: false })
+  category?: string;
 
-  @ApiProperty()
-  categoryShortname: string;
+  @ApiProperty({ required: false })
+  categoryShortname?: string;
 
-  @ApiProperty()
-  instructions: InstructionsDto;
+  @ApiProperty({ required: false })
+  instructions?: InstructionsDto;
 }

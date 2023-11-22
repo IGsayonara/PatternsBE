@@ -12,13 +12,15 @@ import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
 import { UserRequest } from '../../authentication/interfaces/userRequest.interface';
 import { UserDto } from './dto/user.dto';
 import { RoleGuard } from '../../common/guards/role.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('user')
 @Controller('/user')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private userService: UserService) {}
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  @UseGuards(RoleGuard)
   @SetMetadata('role', 'admin')
   @Get()
   async findAll(): Promise<UserDto[]> {

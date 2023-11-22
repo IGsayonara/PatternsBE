@@ -20,7 +20,7 @@ import { CreateProductDto } from './dto/product.dto';
 import { RoleGuard } from '../../common/guards/role.guard';
 import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
 import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('product')
 @UsePipes(new ValidationPipe())
@@ -43,6 +43,7 @@ export class ProductController {
     }
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Post()
@@ -50,6 +51,8 @@ export class ProductController {
     const product = await this.productService.addOne(createProductDto);
     return mapProductInterfaceToDto(product);
   }
+
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Put('/:id')
@@ -61,6 +64,7 @@ export class ProductController {
     return mapProductInterfaceToDto(product);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Delete('/:id')

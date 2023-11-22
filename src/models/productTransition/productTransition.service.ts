@@ -34,16 +34,16 @@ export class ProductTransitionService {
   async addOne(
     transition: CreateProductTransitionDto,
   ): Promise<ProductTransition> {
-    const { sourceProductId, targetProductId, transitionInstructions } =
-      transition;
+    const { sourceProductId, targetProductId } = transition;
     if (sourceProductId === targetProductId) {
       throw new ForbiddenException('Target and Source products are the same');
     }
     await ProductTransitionEntity.insert({
+      ...transition,
       sourceProduct: sourceProductId as any,
       targetProduct: targetProductId as any,
-      transitionInstructions,
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err);
       throw new BadRequestException('Transition already exists');
     });
 

@@ -9,9 +9,9 @@ import {
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { getEmptySuccessMessage } from '../common/helpers/emptySuccessMessage';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('/auth')
@@ -19,6 +19,10 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @UseGuards(LocalAuthGuard)
+  @ApiOkResponse({
+    description: 'Login Response',
+    isArray: true,
+  })
   @Post('/login')
   async login(@Body() credentials: LoginDto) {
     return this.authService.login(credentials);
