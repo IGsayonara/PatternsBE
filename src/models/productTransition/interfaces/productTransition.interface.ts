@@ -6,6 +6,6 @@ export interface ProductTransition {
   targetProduct: Product;
   sourceInstructions: string;
   targetInstructions: string;
-  nb: string;
-  rp: string;
+  nb?: string;
+  rp?: string;
 }

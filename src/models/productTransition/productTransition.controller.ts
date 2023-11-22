@@ -18,7 +18,7 @@ import { CreateProductTransitionDto } from './dto/productTransition.dto';
 import { getEmptySuccessMessage } from '../../common/helpers/emptySuccessMessage';
 import { JwtAuthGuard } from '../../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../../common/guards/role.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('transition')
 @UsePipes(new ValidationPipe())
@@ -47,6 +47,7 @@ export class ProductTransitionController {
     return mapProductTransitionInterfaceToDto(transition);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Post()
@@ -58,6 +59,7 @@ export class ProductTransitionController {
     return mapProductTransitionInterfaceToDto(transition);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Put('/:sourceId/:targetId')
@@ -81,6 +83,7 @@ export class ProductTransitionController {
     return mapProductTransitionInterfaceToDto(transition);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @SetMetadata('role', 'admin')
   @Delete('/:sourceId/:targetId')

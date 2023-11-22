@@ -19,10 +19,10 @@ export class ProductEntity extends BaseEntity {
   })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   category: string;
 
-  @Column()
+  @Column({ nullable: true })
   categoryShortname: string;
 
   @Column()
@@ -31,16 +31,16 @@ export class ProductEntity extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   dosage: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   startInstructions: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   stopInstructions: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   note: string;
 
   @CreateDateColumn()

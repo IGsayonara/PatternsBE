@@ -1,5 +1,6 @@
 import { ProductDto } from '../../products/dto/product.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, IsNumberString } from 'class-validator';
 
 export class ProductTransitionDto {
   @ApiProperty()
@@ -12,19 +13,42 @@ export class ProductTransitionDto {
   targetProduct: ProductDto;
 
   @ApiProperty()
-  nb: string;
+  sourceInstructions: string;
 
   @ApiProperty()
-  rp: string;
+  targetInstructions: string;
+
+  @ApiProperty({ required: false })
+  nb?: string;
+
+  @ApiProperty({ required: false })
+  rp?: string;
 }
 
 export class CreateProductTransitionDto {
   @ApiProperty()
-  transitionInstructions: string;
-
-  @ApiProperty()
+  @IsNumberString()
   sourceProductId: number;
 
   @ApiProperty()
+  @IsNumberString()
   targetProductId: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  sourceInstructions: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  targetInstructions: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  nb?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  rp?: string;
 }
